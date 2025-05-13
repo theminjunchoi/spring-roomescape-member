@@ -17,13 +17,13 @@ public class MemberService {
     }
 
     public List<MemberResponse> findAll() {
-        List<Member> members = memberDao.findAll();
+        final List<Member> members = memberDao.findAll();
         return members.stream()
                 .map(MemberResponse::of)
                 .toList();
     }
 
-    public MemberResponse findById(Long id) {
+    public MemberResponse findById(final Long id) {
         return MemberResponse.of(memberDao.findById(id)
                 .orElseThrow(() -> new NotFoundException("해당하는 사용자가 없습니다.")));
     }

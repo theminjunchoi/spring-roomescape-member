@@ -28,10 +28,10 @@ class AdminReservationApiTest {
     void setUp() {
         RestAssured.port = port;
 
-        String email = "admin@admin.com";
-        String password = "1234";
+        final String email = "admin@admin.com";
+        final String password = "1234";
 
-        LoginRequest request = new LoginRequest(email, password);
+        final LoginRequest request = new LoginRequest(email, password);
 
         token = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

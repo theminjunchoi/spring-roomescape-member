@@ -12,7 +12,7 @@ public record ReservationResponse(
         ThemeResponse theme,
         MemberResponse member) {
 
-    public static ReservationResponse of(Reservation reservation) {
+    public static ReservationResponse of(final Reservation reservation) {
         return new ReservationResponse(
                 reservation.getId(),
                 reservation.getDate(),

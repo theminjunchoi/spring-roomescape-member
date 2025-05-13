@@ -31,17 +31,17 @@ class JdbcThemeDaoTest {
 
     @Test
     void 테마를_저장한다() {
-        Theme theme = new Theme("인터스텔라", "인터스텔라 방탈출", "link");
+        final Theme theme = new Theme("인터스텔라", "인터스텔라 방탈출", "link");
 
-        Theme saved = themeDao.save(theme);
+        final Theme saved = themeDao.save(theme);
 
-        Theme expected = new Theme(4L, "인터스텔라", "인터스텔라 방탈출", "link");
+        final Theme expected = new Theme(4L, "인터스텔라", "인터스텔라 방탈출", "link");
         assertThat(saved).isEqualTo(expected);
     }
 
     @Test
     void 모든_테마를_조회한다() {
-        List<Theme> allThemes = themeDao.findAll();
+        final List<Theme> allThemes = themeDao.findAll();
 
         assertThat(allThemes).hasSize(3);
     }
@@ -52,15 +52,15 @@ class JdbcThemeDaoTest {
 
         themeDao.deleteById(4L);
 
-        List<Theme> allThemes = themeDao.findAll();
+        final List<Theme> allThemes = themeDao.findAll();
         assertThat(allThemes).hasSize(3);
     }
 
     @Test
     void 최근_일주일간_인기있는_테마를_10개까지_조회한다() {
-        List<Theme> themes = themeDao.sortByRank();
+        final List<Theme> themes = themeDao.sortByRank();
 
-        List<Object> expected = List.of(
+        final List<Object> expected = List.of(
                 new Theme(2L, "", "", ""),
                 new Theme(1L, "", "", ""),
                 new Theme(3L, "", "", "")

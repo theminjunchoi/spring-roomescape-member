@@ -30,10 +30,10 @@ class JwtHandlerTest {
 
     @Test
     void 토큰을_생성하고_디코드할_수_있다() {
-        Member member = new Member(1L, "엠제이", "test1@test.com", "1234", Role.ADMIN);
+        final Member member = new Member(1L, "엠제이", "test1@test.com", "1234", Role.ADMIN);
 
-        Token token = jwtHandler.createToken(member);
-        Map<String, String> decoded = jwtHandler.decode(token.accessToken());
+        final Token token = jwtHandler.createToken(member);
+        final Map<String, String> decoded = jwtHandler.decode(token.accessToken());
 
         assertThat(decoded.get(JwtHandler.CLAIM_ID_KEY)).isEqualTo("1");
         assertThat(decoded.get(JwtHandler.CLAIM_ROLE_KEY)).isEqualTo("ADMIN");
@@ -42,7 +42,7 @@ class JwtHandlerTest {
     @Test
     void 지원하지_않는_형식의_토큰은_예외를_던진다() {
         // JWT 형식이 아닌 임의의 문자열
-        String unsupportedToken = "not-a-jwt-token";
+        final String unsupportedToken = "not-a-jwt-token";
 
         assertThatThrownBy(() -> jwtHandler.decode(unsupportedToken))
                 .isInstanceOf(UnauthorizedException.class)
@@ -51,7 +51,7 @@ class JwtHandlerTest {
 
     @Test
     void 서명이_틀린_토큰은_예외를_던진다() {
-        String wrongSignedToken = Jwts.builder()
+        final String wrongSignedToken = Jwts.builder()
                 .claim(JwtHandler.CLAIM_ID_KEY, 1L)
                 .claim(JwtHandler.CLAIM_ROLE_KEY, "ADMIN")
                 .setIssuedAt(new Date())
@@ -66,7 +66,7 @@ class JwtHandlerTest {
 
     @Test
     void 만료된_토큰은_예외를_던진다() {
-        String expiredToken = Jwts.builder()
+        final String expiredToken = Jwts.builder()
                 .claim(JwtHandler.CLAIM_ID_KEY, 1L)
                 .claim(JwtHandler.CLAIM_ROLE_KEY, "ADMIN")
                 .setIssuedAt(new Date(System.currentTimeMillis() - 2000))
@@ -81,7 +81,7 @@ class JwtHandlerTest {
 
     @Test
     void 지원하지_않는_JWT_형식은_예외를_던진다() {
-        String unsupportedJwt = Jwts.builder()
+        final String unsupportedJwt = Jwts.builder()
                 .setPayload("unsupportedJwtPayload")
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
@@ -93,7 +93,7 @@ class JwtHandlerTest {
 
     @Test
     void 잘못된_형식의_토큰은_예외를_던진다() {
-        String malformedToken = "eyJhbGciOiJIUzI1NiJ9.e30"; // payload나 서명이 없음
+        final String malformedToken = "eyJhbGciOiJIUzI1NiJ9.e30"; // payload나 서명이 없음
 
         assertThatThrownBy(() -> jwtHandler.decode(malformedToken))
                 .isInstanceOf(UnauthorizedException.class)
@@ -101,12 +101,12 @@ class JwtHandlerTest {
     }
 
 
-    private void setField(Object target, String fieldName, Object value) {
+    private void setField(final Object target, final String fieldName, final Object value) {
         try {
-            var field = JwtHandler.class.getDeclaredField(fieldName);
+            final var field = JwtHandler.class.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(target, value);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }

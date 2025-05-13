@@ -32,8 +32,8 @@ class JdbcMemberDaoTest {
     @Test
     void 이메일과_비밀번호로_회원을_조회한다() {
         // given
-        String email = "test1@test.com";
-        String password = "1234";
+        final String email = "test1@test.com";
+        final String password = "1234";
         // when
 
         // then

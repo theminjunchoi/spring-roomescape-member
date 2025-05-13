@@ -36,14 +36,14 @@ public class MemberArgumentResolver implements HandlerMethodArgumentResolver {
             final NativeWebRequest webRequest,
             final WebDataBinderFactory binderFactory
     ) {
-        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (request == null || request.getCookies() == null) {
             throw new UnauthorizedException("로그인이 필요합니다.");
         }
 
-        String accessToken = tokenCookieService.getTokenFromCookies(request.getCookies());
-        Map<String, String> decodedClaims = jwtHandler.decode(accessToken);
-        Long id = Long.valueOf(decodedClaims.get(JwtHandler.CLAIM_ID_KEY));
+        final String accessToken = tokenCookieService.getTokenFromCookies(request.getCookies());
+        final Map<String, String> decodedClaims = jwtHandler.decode(accessToken);
+        final Long id = Long.valueOf(decodedClaims.get(JwtHandler.CLAIM_ID_KEY));
 
         return LoginCheckRequest.from(id);
     }

@@ -34,27 +34,27 @@ public class AdminReservationController {
 
     @PostMapping
     public ResponseEntity<ReservationResponse> add(
-            @Valid @RequestBody AdminReservationRequest request
+            @Valid @RequestBody final AdminReservationRequest request
     ) {
-        ReservationResponse response = reservationService.addAdminReservation(request);
+        final ReservationResponse response = reservationService.addAdminReservation(request);
         return ResponseEntity.created(URI.create("/admin/reservations/" + response.id()))
                 .body(response);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<ReservationResponse>> getFilteredReservations(
-            @RequestParam(name = "themeId") long themeId,
-            @RequestParam(name = "memberId") long memberId,
-            @RequestParam(name = "dateFrom") LocalDate start,
-            @RequestParam(name = "dateTo") LocalDate end
+            @RequestParam(name = "themeId") final long themeId,
+            @RequestParam(name = "memberId") final long memberId,
+            @RequestParam(name = "dateFrom") final LocalDate start,
+            @RequestParam(name = "dateTo") final LocalDate end
     ) {
-        List<ReservationResponse> reservationResponses = reservationService.findReservationByThemeIdAndMemberIdInDuration(
+        final List<ReservationResponse> reservationResponses = reservationService.findReservationByThemeIdAndMemberIdInDuration(
                 themeId, memberId, start, end);
         return ResponseEntity.ok(reservationResponses);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
         reservationService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

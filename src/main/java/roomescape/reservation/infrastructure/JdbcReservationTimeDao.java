@@ -22,46 +22,46 @@ public class JdbcReservationTimeDao implements ReservationTimeDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcReservationTimeDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcReservationTimeDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public ReservationTime save(ReservationTime reservationTime) {
-        String sql = "INSERT INTO reservation_time (start_at) VALUES (:startAt)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public ReservationTime save(final ReservationTime reservationTime) {
+        final String sql = "INSERT INTO reservation_time (start_at) VALUES (:startAt)";
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(sql, new MapSqlParameterSource("startAt", reservationTime.getStartAt()), keyHolder);
 
-        Number key = keyHolder.getKey();
+        final Number key = keyHolder.getKey();
         return new ReservationTime(key.longValue(), reservationTime.getStartAt());
     }
 
     @Override
     public List<ReservationTime> findAll() {
-        String sql = "SELECT * FROM reservation_time";
+        final String sql = "SELECT * FROM reservation_time";
 
         return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
     @Override
-    public int deleteById(Long id) {
-        String sql = "DELETE FROM reservation_time WHERE id = :id";
+    public int deleteById(final Long id) {
+        final String sql = "DELETE FROM reservation_time WHERE id = :id";
         return jdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
     }
 
     @Override
-    public Optional<ReservationTime> findById(Long id) {
-        String sql = "SELECT * FROM reservation_time WHERE id = :id";
+    public Optional<ReservationTime> findById(final Long id) {
+        final String sql = "SELECT * FROM reservation_time WHERE id = :id";
 
-        List<ReservationTime> findReservationTime = jdbcTemplate.query(
+        final List<ReservationTime> findReservationTime = jdbcTemplate.query(
                 sql, new MapSqlParameterSource("id", id), ROW_MAPPER);
         return findReservationTime.stream().findFirst();
     }
 
     @Override
-    public boolean existByTime(LocalTime time) {
-        String sql = "SELECT EXISTS (SELECT 1 FROM reservation_time WHERE start_at = :start_at)";
+    public boolean existByTime(final LocalTime time) {
+        final String sql = "SELECT EXISTS (SELECT 1 FROM reservation_time WHERE start_at = :start_at)";
 
         return Boolean.TRUE == jdbcTemplate.queryForObject(
                 sql, new MapSqlParameterSource("start_at", time), Boolean.class);

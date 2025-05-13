@@ -60,7 +60,7 @@ class ReservationServiceTest {
         reservationService.addMemberReservation(request, 1L);
 
         // when
-        Long id = 7L;
+        final Long id = 7L;
 
         // then
         assertThatCode(() -> reservationService.deleteById(id)).doesNotThrowAnyException();
@@ -69,8 +69,8 @@ class ReservationServiceTest {
     @Test
     void 예약가능한_시간을_조회한다() {
         // given
-        Long themeId = 2L;
-        String date = LocalDate.now().minusDays(3).toString();
+        final Long themeId = 2L;
+        final String date = LocalDate.now().minusDays(3).toString();
 
         // when & then
         assertThat(reservationService.findAvailableReservationTime(themeId, date))
@@ -87,10 +87,10 @@ class ReservationServiceTest {
     @Test
     void 해당기간에서_테마id와_멤버id로_예약을_조회한다() {
         // given
-        Long themeId = 2L;
-        Long memberId = 1L;
-        LocalDate start = LocalDate.now().minusDays(10);
-        LocalDate end = LocalDate.now().minusDays(1);
+        final Long themeId = 2L;
+        final Long memberId = 1L;
+        final LocalDate start = LocalDate.now().minusDays(10);
+        final LocalDate end = LocalDate.now().minusDays(1);
 
         // when
 

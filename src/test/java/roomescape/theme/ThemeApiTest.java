@@ -29,7 +29,7 @@ public class ThemeApiTest {
 
     @Test
     void 테마를_추가한다() {
-        ThemeRequest request = new ThemeRequest("배트맨", "", "");
+        final ThemeRequest request = new ThemeRequest("배트맨", "", "");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -50,7 +50,7 @@ public class ThemeApiTest {
 
     @Test
     void 이름은_null값을_받을_수_없다() {
-        ThemeRequest request = new ThemeRequest(null, "", "");
+        final ThemeRequest request = new ThemeRequest(null, "", "");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

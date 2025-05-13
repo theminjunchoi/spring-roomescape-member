@@ -23,14 +23,14 @@ public class UserReservationController {
 
     private final ReservationService reservationService;
 
-    public UserReservationController(ReservationService reservationService) {
+    public UserReservationController(final ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
     @PostMapping
     public ResponseEntity<ReservationResponse> add(
-            @Valid @RequestBody MemberReservationRequest request,
-            LoginCheckRequest loginCheckRequest
+            @Valid @RequestBody final MemberReservationRequest request,
+            final LoginCheckRequest loginCheckRequest
     ) {
         final ReservationResponse reservationResponse = reservationService.addMemberReservation(request,
                 loginCheckRequest.id());
@@ -40,8 +40,8 @@ public class UserReservationController {
 
     @GetMapping("/themes/{themeId}/times")
     public ResponseEntity<List<AvailableReservationTimeResponse>> findAvailableReservationTime(
-            @PathVariable Long themeId,
-            @RequestParam String date) {
+            @PathVariable final Long themeId,
+            @RequestParam final String date) {
         return ResponseEntity.ok(reservationService.findAvailableReservationTime(themeId, date));
     }
 }

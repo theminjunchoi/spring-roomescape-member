@@ -32,10 +32,10 @@ public class AdminInterceptor implements HandlerInterceptor {
             throw new UnauthorizedException("로그인이 필요합니다.");
         }
 
-        String accessToken = tokenCookieService.getTokenFromCookies(request.getCookies());
-        String roleName = jwtHandler.decode(accessToken, JwtHandler.CLAIM_ROLE_KEY);
+        final String accessToken = tokenCookieService.getTokenFromCookies(request.getCookies());
+        final String roleName = jwtHandler.decode(accessToken, JwtHandler.CLAIM_ROLE_KEY);
 
-        Role role = Role.valueOf(roleName);
+        final Role role = Role.valueOf(roleName);
         if (role != Role.ADMIN) {
             throw new ForbiddenException("회원 권한이 존재하지 않아 접근할 수 없습니다.");
         }

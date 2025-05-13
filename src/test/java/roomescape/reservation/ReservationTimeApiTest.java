@@ -30,7 +30,7 @@ public class ReservationTimeApiTest {
 
     @Test
     void 시간을_추가한다() {
-        ReservationTimeRequest request = new ReservationTimeRequest(LocalTime.of(23, 0));
+        final ReservationTimeRequest request = new ReservationTimeRequest(LocalTime.of(23, 0));
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -51,7 +51,7 @@ public class ReservationTimeApiTest {
 
     @Test
     void 시간은_null값을_받을_수_없다() {
-        ReservationTimeRequest request = new ReservationTimeRequest(null);
+        final ReservationTimeRequest request = new ReservationTimeRequest(null);
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

@@ -35,7 +35,7 @@ class LoginServiceTest {
         // when
         final Token token = loginService.login(request);
         final String accessToken = token.accessToken();
-        Map<String, String> claims = jwtHandler.decode(accessToken);
+        final Map<String, String> claims = jwtHandler.decode(accessToken);
 
         // then
         assertAll(
@@ -51,7 +51,7 @@ class LoginServiceTest {
     @Test
     void 잘못된_이메일_비번으로_요청하면_예외를_발생한다() {
         // given
-        LoginRequest loginRequest = new LoginRequest("wrongEmail@gmail.com", "password");
+        final LoginRequest loginRequest = new LoginRequest("wrongEmail@gmail.com", "password");
 
         // when & then
         assertThatThrownBy(() -> loginService.login(loginRequest))

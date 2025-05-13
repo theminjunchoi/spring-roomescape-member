@@ -47,7 +47,7 @@ class ReservationTimeServiceTest {
         reservationTimeService.add(request);
 
         // when
-        Long id = 7L;
+        final Long id = 7L;
 
         // then
         assertThatCode(() -> reservationTimeService.deleteById(id)).doesNotThrowAnyException();
@@ -56,7 +56,7 @@ class ReservationTimeServiceTest {
     @Test
     void 사용중인_시간을_삭제하면_에러를_발생시킨다() {
         // given
-        Long id = 1L;
+        final Long id = 1L;
 
         // when & then
         assertThatThrownBy(() -> reservationTimeService.deleteById(id))

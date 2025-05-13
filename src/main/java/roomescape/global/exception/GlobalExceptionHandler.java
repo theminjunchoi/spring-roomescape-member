@@ -18,39 +18,39 @@ public class GlobalExceptionHandler {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handle(Exception e) {
+    public ResponseEntity<String> handle(final Exception e) {
         log.error("Unexpected error occured", e);
         return new ResponseEntity<>("서버 내부에 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<String> handle(BadRequestException e) {
+    public ResponseEntity<String> handle(final BadRequestException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handle(NotFoundException e) {
+    public ResponseEntity<String> handle(final NotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<String> handle(ConflictException e) {
+    public ResponseEntity<String> handle(final ConflictException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<String> handle(UnauthorizedException e) {
+    public ResponseEntity<String> handle(final UnauthorizedException e) {
         log.warn("인증 실패: {}", e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<String> handle(ForbiddenException e) {
+    public ResponseEntity<String> handle(final ForbiddenException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidation(MethodArgumentNotValidException e) {
+    public ResponseEntity<String> handleValidation(final MethodArgumentNotValidException e) {
         return new ResponseEntity<>("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
     }
 }

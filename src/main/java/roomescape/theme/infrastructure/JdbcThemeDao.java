@@ -23,41 +23,41 @@ public class JdbcThemeDao implements ThemeDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcThemeDao(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcThemeDao(final NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Theme save(Theme theme) {
-        String sql = "INSERT INTO theme (name, description, thumbnail) VALUES (:name, :description, :thumbnail)";
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public Theme save(final Theme theme) {
+        final String sql = "INSERT INTO theme (name, description, thumbnail) VALUES (:name, :description, :thumbnail)";
+        final KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+        final MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("name", theme.getName())
                 .addValue("description", theme.getDescription())
                 .addValue("thumbnail", theme.getThumbnail());
         jdbcTemplate.update(sql, mapSqlParameterSource, keyHolder);
 
-        Number key = keyHolder.getKey();
+        final Number key = keyHolder.getKey();
         return new Theme(key.longValue(), theme.getName(), theme.getDescription(), theme.getThumbnail());
     }
 
     @Override
     public List<Theme> findAll() {
-        String sql = "SELECT * FROM theme";
+        final String sql = "SELECT * FROM theme";
 
         return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
     @Override
-    public int deleteById(Long id) {
-        String sql = "DELETE FROM theme WHERE id = :id";
+    public int deleteById(final Long id) {
+        final String sql = "DELETE FROM theme WHERE id = :id";
         return jdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
     }
 
     @Override
     public List<Theme> sortByRank() {
-        String sql = """
+        final String sql = """
                 SELECT
                     t.id AS theme_id,
                     t.name AS theme_name,
@@ -80,8 +80,8 @@ public class JdbcThemeDao implements ThemeDao {
     }
 
     @Override
-    public boolean existByName(String name) {
-        String sql = "SELECT EXISTS (SELECT 1 FROM theme WHERE name = :name)";
+    public boolean existByName(final String name) {
+        final String sql = "SELECT EXISTS (SELECT 1 FROM theme WHERE name = :name)";
 
         return Boolean.TRUE == jdbcTemplate.queryForObject(
                 sql, new MapSqlParameterSource("name", name), Boolean.class);
@@ -89,10 +89,10 @@ public class JdbcThemeDao implements ThemeDao {
     }
 
     @Override
-    public Optional<Theme> findById(Long id) {
-        String sql = "SELECT * FROM theme WHERE id = :id";
+    public Optional<Theme> findById(final Long id) {
+        final String sql = "SELECT * FROM theme WHERE id = :id";
 
-        List<Theme> findTheme = jdbcTemplate.query(
+        final List<Theme> findTheme = jdbcTemplate.query(
                 sql, new MapSqlParameterSource("id", id),
                 ROW_MAPPER);
         return findTheme.stream().findFirst();

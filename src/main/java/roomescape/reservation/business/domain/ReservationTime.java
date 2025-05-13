@@ -9,18 +9,18 @@ public class ReservationTime {
     private final Long id;
     private final LocalTime startAt;
 
-    public ReservationTime(Long id, LocalTime startAt) {
+    public ReservationTime(final Long id, final LocalTime startAt) {
         this.id = id;
         this.startAt = startAt;
     }
 
-    public ReservationTime(LocalTime startAt) {
+    public ReservationTime(final LocalTime startAt) {
         this(null, startAt);
     }
 
-    public boolean hasConflict(Duration duration, LocalTime anotherTime) {
-        LocalTime max = startAt.plus(duration);
-        LocalTime min = startAt.minus(duration);
+    public boolean hasConflict(final Duration duration, final LocalTime anotherTime) {
+        final LocalTime max = startAt.plus(duration);
+        final LocalTime min = startAt.minus(duration);
         return anotherTime.isAfter(min) && anotherTime.isBefore(max);
     }
 
@@ -33,11 +33,11 @@ public class ReservationTime {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ReservationTime that = (ReservationTime) o;
+        final ReservationTime that = (ReservationTime) o;
         return Objects.equals(id, that.id);
     }
 

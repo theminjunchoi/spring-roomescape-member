@@ -16,39 +16,39 @@ public class ThemeService {
     private final ReservationDao reservationDao;
     private final ThemeDao themeDao;
 
-    public ThemeService(ReservationDao reservationDao, ThemeDao themeDao) {
+    public ThemeService(final ReservationDao reservationDao, final ThemeDao themeDao) {
         this.reservationDao = reservationDao;
         this.themeDao = themeDao;
     }
 
     public List<ThemeResponse> findAll() {
-        List<Theme> themes = themeDao.findAll();
+        final List<Theme> themes = themeDao.findAll();
         return themes.stream()
                 .map(ThemeResponse::of)
                 .toList();
     }
 
-    public ThemeResponse add(ThemeRequest requestDto) {
+    public ThemeResponse add(final ThemeRequest requestDto) {
         if (themeDao.existByName(requestDto.name())) {
             throw new BadRequestException("동일한 이름의 테마가 이미 존재합니다.");
         }
-        Theme theme = new Theme(requestDto.name(), requestDto.description(), requestDto.thumbnail());
-        Theme savedTheme = themeDao.save(theme);
+        final Theme theme = new Theme(requestDto.name(), requestDto.description(), requestDto.thumbnail());
+        final Theme savedTheme = themeDao.save(theme);
         return ThemeResponse.of(savedTheme);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         if (reservationDao.existByThemeId(id)) {
             throw new BadRequestException("이 테마의 예약이 존재합니다.");
         }
-        int affectedRows = themeDao.deleteById(id);
+        final int affectedRows = themeDao.deleteById(id);
         if (affectedRows == 0) {
             throw new NotFoundException("삭제할 테마가 없습니다.");
         }
     }
 
     public List<ThemeResponse> sortByRank() {
-        List<Theme> themes = themeDao.sortByRank();
+        final List<Theme> themes = themeDao.sortByRank();
         return themes.stream()
                 .map(ThemeResponse::of)
                 .toList();

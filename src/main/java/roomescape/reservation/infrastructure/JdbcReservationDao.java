@@ -53,7 +53,7 @@ public class JdbcReservationDao implements ReservationDao {
 
     @Override
     public List<Reservation> findAll() {
-        String sql = """
+        final String sql = """
                 SELECT * FROM reservation r 
                 JOIN reservation_time rt ON r.time_id = rt.id
                 JOIN theme t ON r.theme_id = t.id
@@ -64,18 +64,18 @@ public class JdbcReservationDao implements ReservationDao {
     }
 
     @Override
-    public Reservation save(Reservation reservation) {
-        String sql = "INSERT INTO reservation (date, time_id, theme_id, member_id) VALUES (:date, :time_id, :theme_id, :member_id)";
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+    public Reservation save(final Reservation reservation) {
+        final String sql = "INSERT INTO reservation (date, time_id, theme_id, member_id) VALUES (:date, :time_id, :theme_id, :member_id)";
+        final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+        final MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("date", reservation.getDate())
                 .addValue("time_id", reservation.getTime().getId())
                 .addValue("theme_id", reservation.getTheme().getId())
                 .addValue("member_id", reservation.getMember().getId());
         jdbcTemplate.update(sql, mapSqlParameterSource, keyHolder);
 
-        Number key = keyHolder.getKey();
+        final Number key = keyHolder.getKey();
         return new Reservation(
                 key.longValue(),
                 reservation.getDate(),
@@ -86,14 +86,14 @@ public class JdbcReservationDao implements ReservationDao {
     }
 
     @Override
-    public int deleteById(Long id) {
-        String sql = "DELETE FROM reservation WHERE id = :id";
+    public int deleteById(final Long id) {
+        final String sql = "DELETE FROM reservation WHERE id = :id";
         return jdbcTemplate.update(sql, new MapSqlParameterSource("id", id));
     }
 
     @Override
-    public Optional<Reservation> findById(Long id) {
-        String sql = """
+    public Optional<Reservation> findById(final Long id) {
+        final String sql = """
                 SELECT * FROM reservation r
                 JOIN reservation_time rt ON r.time_id = rt.id
                 JOIN theme t ON r.theme_id = t.id
@@ -101,16 +101,17 @@ public class JdbcReservationDao implements ReservationDao {
                 WHERE r.id = :id
                 """;
         try {
-            Reservation reservation = jdbcTemplate.queryForObject(sql, new MapSqlParameterSource("id", id), ROW_MAPPER);
+            final Reservation reservation = jdbcTemplate.queryForObject(sql, new MapSqlParameterSource("id", id),
+                    ROW_MAPPER);
             return Optional.of(reservation);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (final EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public boolean existByTimeId(Long timeId) {
-        String sql = """
+    public boolean existByTimeId(final Long timeId) {
+        final String sql = """
                 SELECT EXISTS 
                     (SELECT 1 
                      FROM reservation 
@@ -124,7 +125,7 @@ public class JdbcReservationDao implements ReservationDao {
 
     @Override
     public boolean existByThemeId(final Long themeId) {
-        String sql = """
+        final String sql = """
                 SELECT EXISTS 
                     (SELECT 1 
                      FROM reservation 
@@ -137,8 +138,8 @@ public class JdbcReservationDao implements ReservationDao {
     }
 
     @Override
-    public List<Reservation> findByDateAndThemeId(LocalDate date, Long themeId) {
-        String sql = """
+    public List<Reservation> findByDateAndThemeId(final LocalDate date, final Long themeId) {
+        final String sql = """
                 SELECT * FROM reservation r
                 JOIN reservation_time rt ON r.time_id = rt.id
                 JOIN theme t ON r.theme_id = t.id
@@ -146,7 +147,7 @@ public class JdbcReservationDao implements ReservationDao {
                 WHERE r.date = :date AND t.id = :theme_id
                 """;
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+        final MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("theme_id", themeId)
                 .addValue("date", date);
 
@@ -157,7 +158,7 @@ public class JdbcReservationDao implements ReservationDao {
     public List<Reservation> findReservationByThemeIdAndMemberIdInDuration(final long themeId, final long memberId,
                                                                            final LocalDate start,
                                                                            final LocalDate end) {
-        String sql = """
+        final String sql = """
                     SELECT * FROM reservation r
                     JOIN reservation_time rt ON r.time_id = rt.id
                     JOIN theme t ON r.theme_id = t.id
@@ -167,7 +168,7 @@ public class JdbcReservationDao implements ReservationDao {
                       AND r.date BETWEEN :start AND :end
                 """;
 
-        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+        final MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
                 .addValue("theme_id", themeId)
                 .addValue("member_id", memberId)
                 .addValue("start", start)

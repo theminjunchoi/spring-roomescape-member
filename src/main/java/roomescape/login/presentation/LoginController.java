@@ -31,9 +31,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest request) {
-        Token token = loginService.login(request);
-        String cookie = tokenCookieService.createTokenCookie(token.accessToken(), expiration);
+    public ResponseEntity<Void> login(@Valid @RequestBody final LoginRequest request) {
+        final Token token = loginService.login(request);
+        final String cookie = tokenCookieService.createTokenCookie(token.accessToken(), expiration);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie)
@@ -41,14 +41,14 @@ public class LoginController {
     }
 
     @GetMapping("/login/check")
-    public ResponseEntity<LoginCheckResponse> checkLogin(LoginCheckRequest request) {
+    public ResponseEntity<LoginCheckResponse> checkLogin(final LoginCheckRequest request) {
         final LoginCheckResponse loginCheckResponse = loginService.checkLogin(request);
         return ResponseEntity.ok(loginCheckResponse);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout() {
-        String cookie = tokenCookieService.createTokenCookie("", 0);
+        final String cookie = tokenCookieService.createTokenCookie("", 0);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie)
@@ -56,7 +56,7 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<LoginCheckResponse> signup(@Valid @RequestBody SignupRequest request) {
+    public ResponseEntity<LoginCheckResponse> signup(@Valid @RequestBody final SignupRequest request) {
         final LoginCheckResponse loginCheckResponse = loginService.signup(request);
         return ResponseEntity.ok(loginCheckResponse);
     }

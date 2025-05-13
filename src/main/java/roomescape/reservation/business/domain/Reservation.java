@@ -14,7 +14,8 @@ public class Reservation {
     private final Theme theme;
     private final Member member;
 
-    public Reservation(Long id, LocalDate date, ReservationTime time, Theme theme, Member member) {
+    public Reservation(final Long id, final LocalDate date, final ReservationTime time, final Theme theme,
+                       final Member member) {
         this.id = id;
         this.date = date;
         this.time = time;
@@ -22,12 +23,12 @@ public class Reservation {
         this.member = member;
     }
 
-    public Reservation(LocalDate date, ReservationTime time, Theme theme, Member member) {
+    public Reservation(final LocalDate date, final ReservationTime time, final Theme theme, final Member member) {
         this(null, date, time, theme, member);
     }
 
-    public boolean hasConflictWith(ReservationTime reservationTime, Theme theme) {
-        LocalTime startAt = time.getStartAt();
+    public boolean hasConflictWith(final ReservationTime reservationTime, final Theme theme) {
+        final LocalTime startAt = time.getStartAt();
         return reservationTime.hasConflict(theme.getDuration(), startAt);
     }
 
@@ -56,11 +57,11 @@ public class Reservation {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Reservation that = (Reservation) o;
+        final Reservation that = (Reservation) o;
         return Objects.equals(id, that.id);
     }
 

@@ -26,10 +26,10 @@ public class JwtHandler {
     private long accessTokenExpireTime;
 
     public Token createToken(final Member member) {
-        Date date = new Date();
-        Date accessTokenExpiredAt = new Date(date.getTime() + accessTokenExpireTime);
+        final Date date = new Date();
+        final Date accessTokenExpiredAt = new Date(date.getTime() + accessTokenExpireTime);
 
-        String accessToken = Jwts.builder()
+        final String accessToken = Jwts.builder()
                 .claim(CLAIM_ID_KEY, member.getId())
                 .claim(CLAIM_ROLE_KEY, member.getRole().toString())
                 .setIssuedAt(date)
@@ -40,8 +40,8 @@ public class JwtHandler {
         return new Token(accessToken);
     }
 
-    public Map<String, String> decode(String token) {
-        Claims claims = parseJwt(token);
+    public Map<String, String> decode(final String token) {
+        final Claims claims = parseJwt(token);
 
         return Map.of(
                 CLAIM_ID_KEY, claims.get(CLAIM_ID_KEY).toString(),
@@ -49,21 +49,21 @@ public class JwtHandler {
         );
     }
 
-    public String decode(String token, String key) {
+    public String decode(final String token, final String key) {
         return parseJwt(token)
                 .get(key)
                 .toString();
     }
 
-    private Claims parseJwt(String token) {
+    private Claims parseJwt(final String token) {
         try {
             return Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (ExpiredJwtException e) {
+        } catch (final ExpiredJwtException e) {
             throw new UnauthorizedException("로그인 정보가 만료되었습니다.");
-        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException e) {
+        } catch (final UnsupportedJwtException | MalformedJwtException | SignatureException e) {
             throw new UnauthorizedException("로그인 정보가 유효하지 않습니다.");
         }
     }

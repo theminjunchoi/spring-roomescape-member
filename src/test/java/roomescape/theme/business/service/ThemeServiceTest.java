@@ -57,7 +57,7 @@ class ThemeServiceTest {
         themeService.add(request);
 
         // when
-        Long id = 4L;
+        final Long id = 4L;
 
         // then
         assertThatCode(() -> themeService.deleteById(id)).doesNotThrowAnyException();
@@ -66,7 +66,7 @@ class ThemeServiceTest {
     @Test
     void 사용중인_테마를_삭제하면_에러를_발생시킨다() {
         // given
-        Long id = 1L;
+        final Long id = 1L;
 
         // when & then
         assertThatThrownBy(() -> themeService.deleteById(id))

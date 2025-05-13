@@ -34,20 +34,20 @@ public class AuthApiTest {
     }
 
     @Autowired
-    public AuthApiTest(JwtHandler jwtHandler) {
+    public AuthApiTest(final JwtHandler jwtHandler) {
         this.jwtHandler = jwtHandler;
     }
 
     @Test
     void 로그인에_성공하면_JWT_accessToken을_받는다() {
         // given
-        String email = "test1@test.com";
-        String password = "1234";
+        final String email = "test1@test.com";
+        final String password = "1234";
 
-        LoginRequest request = new LoginRequest(email, password);
+        final LoginRequest request = new LoginRequest(email, password);
 
         // when
-        String token = RestAssured.given().log().all()
+        final String token = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when().post("/login")
@@ -58,7 +58,7 @@ public class AuthApiTest {
                 .split(";")[0]
                 .split(TokenCookieService.COOKIE_TOKEN_KEY + "=")[1];
 
-        String actual = jwtHandler.decode(token, JwtHandler.CLAIM_ID_KEY);
+        final String actual = jwtHandler.decode(token, JwtHandler.CLAIM_ID_KEY);
 
         // then
         assertThat(actual).isEqualTo("1");
@@ -67,13 +67,13 @@ public class AuthApiTest {
     @Test
     void 잘못된_값으로_로그인하면_예외가_발생한다() {
         // given
-        String email = "test1234@test.com";
-        String password = "1234";
+        final String email = "test1234@test.com";
+        final String password = "1234";
 
-        LoginRequest request = new LoginRequest(email, password);
+        final LoginRequest request = new LoginRequest(email, password);
 
         // when
-        String message = RestAssured.given().log().all()
+        final String message = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when().post("/login")
@@ -89,13 +89,13 @@ public class AuthApiTest {
     @Test
     void 로그인을_하면_사용자_이름을_반환한다() {
         // given
-        String email = "test1@test.com";
-        String password = "1234";
+        final String email = "test1@test.com";
+        final String password = "1234";
 
-        LoginRequest request = new LoginRequest(email, password);
+        final LoginRequest request = new LoginRequest(email, password);
 
         // when
-        String token = RestAssured.given().log().all()
+        final String token = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when().post("/login")
@@ -106,7 +106,7 @@ public class AuthApiTest {
                 .split(";")[0]
                 .split(TokenCookieService.COOKIE_TOKEN_KEY + "=")[1];
 
-        String actual = RestAssured.given().log().all()
+        final String actual = RestAssured.given().log().all()
                 .cookie(TokenCookieService.COOKIE_TOKEN_KEY, token)
                 .when().get("/login/check")
                 .then().log().all()

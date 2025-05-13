@@ -31,10 +31,10 @@ public class MemberReservationApiTest {
     void setUp() {
         RestAssured.port = port;
 
-        String email = "test1@test.com";
-        String password = "1234";
+        final String email = "test1@test.com";
+        final String password = "1234";
 
-        LoginRequest request = new LoginRequest(email, password);
+        final LoginRequest request = new LoginRequest(email, password);
 
         token = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -50,7 +50,7 @@ public class MemberReservationApiTest {
 
     @Test
     void 예약을_추가한다() {
-        MemberReservationRequest request = new MemberReservationRequest(
+        final MemberReservationRequest request = new MemberReservationRequest(
                 LocalDate.now().plusDays(1),
                 1L,
                 1L
@@ -67,7 +67,7 @@ public class MemberReservationApiTest {
 
     @Test
     void 예약날짜는_null을_받을_수_없다() {
-        MemberReservationRequest request = new MemberReservationRequest(null, 1L, 1L);
+        final MemberReservationRequest request = new MemberReservationRequest(null, 1L, 1L);
 
         RestAssured.given().log().all()
                 .cookie(TokenCookieService.COOKIE_TOKEN_KEY, token)
@@ -81,7 +81,7 @@ public class MemberReservationApiTest {
 
     @Test
     void 예약_시간_id는_null을_받을_수_없다() {
-        MemberReservationRequest request = new MemberReservationRequest(LocalDate.now().plusDays(1), null, 1L);
+        final MemberReservationRequest request = new MemberReservationRequest(LocalDate.now().plusDays(1), null, 1L);
 
         RestAssured.given().log().all()
                 .cookie(TokenCookieService.COOKIE_TOKEN_KEY, token)
@@ -94,7 +94,7 @@ public class MemberReservationApiTest {
 
     @Test
     void 과거날짜로_예약을_하면_에러를_반환한다() {
-        MemberReservationRequest request = new MemberReservationRequest(
+        final MemberReservationRequest request = new MemberReservationRequest(
                 LocalDate.now().minusDays(10),
                 1L,
                 1L
@@ -113,13 +113,13 @@ public class MemberReservationApiTest {
 
     @Test
     void 중복된_시간에_예약을_하면_에러가_발생한다() {
-        MemberReservationRequest request1 = new MemberReservationRequest(
+        final MemberReservationRequest request1 = new MemberReservationRequest(
                 LocalDate.now().plusDays(10),
                 1L,
                 1L
         );
 
-        MemberReservationRequest request2 = new MemberReservationRequest(
+        final MemberReservationRequest request2 = new MemberReservationRequest(
                 LocalDate.now().plusDays(10),
                 1L,
                 1L

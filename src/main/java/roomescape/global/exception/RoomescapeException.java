@@ -1,7 +1,7 @@
 package roomescape.global.exception;
 
 public class RoomescapeException extends RuntimeException {
-    public RoomescapeException(String message) {
+    public RoomescapeException(final String message) {
         super(message);
     }
 }

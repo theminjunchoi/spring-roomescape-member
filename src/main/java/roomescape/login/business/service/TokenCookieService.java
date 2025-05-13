@@ -11,14 +11,14 @@ public class TokenCookieService {
 
     public static final String COOKIE_TOKEN_KEY = "token";
 
-    public String createTokenCookie(String value, long maxAge) {
+    public String createTokenCookie(final String value, final long maxAge) {
         return ResponseCookie.from(COOKIE_TOKEN_KEY, value)
                 .maxAge(maxAge)
                 .build()
                 .toString();
     }
 
-    public String getTokenFromCookies(Cookie[] cookies) {
+    public String getTokenFromCookies(final Cookie[] cookies) {
         return Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(COOKIE_TOKEN_KEY))
                 .findFirst()

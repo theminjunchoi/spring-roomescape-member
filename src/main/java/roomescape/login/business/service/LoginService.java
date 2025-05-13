@@ -38,13 +38,13 @@ public class LoginService {
     }
 
     public LoginCheckResponse signup(final SignupRequest request) {
-        Member member = request.toMember();
+        final Member member = request.toMember();
         validateDuplicatedEmail(member);
-        Member savedMember = memberDao.save(member);
+        final Member savedMember = memberDao.save(member);
         return LoginCheckResponse.from(savedMember);
     }
 
-    private void validateDuplicatedEmail(Member member) {
+    private void validateDuplicatedEmail(final Member member) {
         if (memberDao.existsByEmail(member.getEmail())) {
             throw new BadRequestException("이미 존재하는 이메일입니다.");
         }

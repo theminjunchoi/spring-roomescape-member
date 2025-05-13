@@ -32,17 +32,17 @@ class JdbcReservationTimeDaoTest {
 
     @Test
     void 시간을_저장한다() {
-        ReservationTime reservationTime = new ReservationTime(LocalTime.of(22, 0));
+        final ReservationTime reservationTime = new ReservationTime(LocalTime.of(22, 0));
 
-        ReservationTime saved = reservationTimeDao.save(reservationTime);
+        final ReservationTime saved = reservationTimeDao.save(reservationTime);
 
-        ReservationTime expected = new ReservationTime(7L, LocalTime.of(22, 0));
+        final ReservationTime expected = new ReservationTime(7L, LocalTime.of(22, 0));
         assertThat(saved).isEqualTo(expected);
     }
 
     @Test
     void 모든_시간을_조회한다() {
-        List<ReservationTime> allReservationTimes = reservationTimeDao.findAll();
+        final List<ReservationTime> allReservationTimes = reservationTimeDao.findAll();
 
         assertThat(allReservationTimes).hasSize(6);
     }
@@ -53,13 +53,13 @@ class JdbcReservationTimeDaoTest {
 
         reservationTimeDao.deleteById(7L);
 
-        List<ReservationTime> allReservationTimes = reservationTimeDao.findAll();
+        final List<ReservationTime> allReservationTimes = reservationTimeDao.findAll();
         assertThat(allReservationTimes).hasSize(6);
     }
 
     @Test
     void id로_시간을_조회한다() {
-        ReservationTime expected = new ReservationTime(2L, LocalTime.of(12, 0));
+        final ReservationTime expected = new ReservationTime(2L, LocalTime.of(12, 0));
 
         assertThat(reservationTimeDao.findById(2L).get())
                 .isEqualTo(expected);

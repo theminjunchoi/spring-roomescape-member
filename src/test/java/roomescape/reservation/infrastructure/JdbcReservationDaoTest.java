@@ -38,23 +38,23 @@ class JdbcReservationDaoTest {
 
     @Test
     void 모든_예약을_조회한다() {
-        List<Reservation> allReservations = reservationDao.findAll();
+        final List<Reservation> allReservations = reservationDao.findAll();
 
         assertThat(allReservations).hasSize(6);
     }
 
     @Test
     void 예약을_추가한다() {
-        Reservation reservation = new Reservation(
+        final Reservation reservation = new Reservation(
                 LocalDate.now().plusDays(1),
                 new ReservationTime(1L, LocalTime.of(10, 0)),
                 new Theme(1L, "", "", ""),
                 new Member(1L, "엠제이", "", "", Role.MEMBER)
         );
 
-        Reservation saved = reservationDao.save(reservation);
+        final Reservation saved = reservationDao.save(reservation);
 
-        Reservation expected = new Reservation(7L, LocalDate.now().plusDays(1),
+        final Reservation expected = new Reservation(7L, LocalDate.now().plusDays(1),
                 new ReservationTime(1L, LocalTime.of(10, 0)),
                 new Theme(1L, "", "", ""),
                 new Member(1L, "엠제이", "", "", Role.MEMBER)
@@ -66,13 +66,13 @@ class JdbcReservationDaoTest {
     void 예약을_삭제한다() {
         reservationDao.deleteById(1L);
 
-        List<Reservation> all = reservationDao.findAll();
+        final List<Reservation> all = reservationDao.findAll();
         assertThat(all).hasSize(5);
     }
 
     @Test
     void id로_예약을_조회한다() {
-        Optional<Reservation> findReservation = reservationDao.findById(1L);
+        final Optional<Reservation> findReservation = reservationDao.findById(1L);
 
         assertThat(findReservation.get())
                 .isEqualTo(new Reservation(1L, LocalDate.now().plusDays(1),
@@ -93,9 +93,9 @@ class JdbcReservationDaoTest {
 
     @Test
     void date와_theme_id가_일치하는_예약을_조회한다() {
-        List<Reservation> findReservation = reservationDao.findByDateAndThemeId(LocalDate.now().minusDays(4), 2L);
+        final List<Reservation> findReservation = reservationDao.findByDateAndThemeId(LocalDate.now().minusDays(4), 2L);
 
-        List<Reservation> expected = List.of(
+        final List<Reservation> expected = List.of(
                 new Reservation(
                         2L,
                         LocalDate.now().minusDays(4),

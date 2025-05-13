@@ -29,7 +29,7 @@ class MemberServiceTest {
     @Test
     void id로_멤버를_조회한다() {
         // given
-        Long id = 1L;
+        final Long id = 1L;
 
         // when & then
         assertThat(memberService.findById(id)).isEqualTo(
